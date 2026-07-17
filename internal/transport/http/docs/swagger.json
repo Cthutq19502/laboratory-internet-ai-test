@@ -1,0 +1,168 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Сервис контактов",
+        "title": "Тестовое задание",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/swagger/index.html",
+    "paths": {
+        "/contact": {
+            "post": {
+                "description": "Создать контакт",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "createContact"
+                ],
+                "summary": "Создать контакт",
+                "parameters": [
+                    {
+                        "description": "Создание контакта",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contact_handler.createContactDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/contact_handler.contactDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/contact_handler.ErrorDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/contact_handler.ErrorDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/metric": {
+            "get": {
+                "description": "Запрос метрики",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GetMetric"
+                ],
+                "summary": "Запрос метрики",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/metric_handler.metricDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/metric_handler.ErrorDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/metric_handler.ErrorDTO"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "contact_handler.ErrorDTO": {
+            "type": "object",
+            "properties": {
+                "error": {}
+            }
+        },
+        "contact_handler.contactDTO": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "date_create": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "tonal": {
+                    "type": "string"
+                }
+            }
+        },
+        "contact_handler.createContactDTO": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "metric_handler.ErrorDTO": {
+            "type": "object",
+            "properties": {
+                "error": {}
+            }
+        },
+        "metric_handler.metricDTO": {
+            "type": "object",
+            "properties": {
+                "another": {
+                    "type": "string"
+                },
+                "bad_request": {
+                    "type": "string"
+                },
+                "critical": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "many_request": {
+                    "type": "string"
+                },
+                "ok": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,110 @@
+basePath: /swagger/index.html
+definitions:
+  contact_handler.ErrorDTO:
+    properties:
+      error: {}
+    type: object
+  contact_handler.contactDTO:
+    properties:
+      comment:
+        type: string
+      date_create:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      tonal:
+        type: string
+    type: object
+  contact_handler.createContactDTO:
+    properties:
+      comment:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+    type: object
+  metric_handler.ErrorDTO:
+    properties:
+      error: {}
+    type: object
+  metric_handler.metricDTO:
+    properties:
+      another:
+        type: string
+      bad_request:
+        type: string
+      critical:
+        type: string
+      date:
+        type: string
+      many_request:
+        type: string
+      ok:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: Сервис контактов
+  title: Тестовое задание
+  version: "1.0"
+paths:
+  /contact:
+    post:
+      consumes:
+      - application/json
+      description: Создать контакт
+      parameters:
+      - description: Создание контакта
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contact_handler.createContactDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/contact_handler.contactDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contact_handler.ErrorDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/contact_handler.ErrorDTO'
+      summary: Создать контакт
+      tags:
+      - createContact
+  /metric:
+    get:
+      description: Запрос метрики
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/metric_handler.metricDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/metric_handler.ErrorDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/metric_handler.ErrorDTO'
+      summary: Запрос метрики
+      tags:
+      - GetMetric
+swagger: "2.0"

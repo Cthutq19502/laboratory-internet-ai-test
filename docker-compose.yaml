@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: database
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d database" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migration/0001_create_contacts.up.sql:/docker-entrypoint-initdb.d/001_create_contacts.sql:ro
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: app_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass "123456789"
+    environment:
+      - PASSWORD="123456789"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ai-test-service:
+    container_name: ai-test
+    image: ai-test
+    stdin_open: true
+    build: .
+    tty: true
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+
+volumes:
+  postgres_data:
+  redis_data:
+    driver: local
